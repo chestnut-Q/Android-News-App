@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingTop="30dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="设置开始时间"
+        android:textSize="24sp"
+        android:textAlignment="center"/>
+    <DatePicker
+        android:id="@+id/start_date_choose"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="设置结束时间"
+        android:textSize="24sp"
+        android:textAlignment="center"/>
+
+    <DatePicker
+        android:id="@+id/end_date_choose"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner" />
+
+</LinearLayout>
