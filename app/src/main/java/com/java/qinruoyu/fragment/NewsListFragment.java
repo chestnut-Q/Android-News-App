@@ -56,6 +56,7 @@ public class NewsListFragment extends Fragment {
     private final int mSize = 15;
     public static RefreshLayout refreshLayout;
     private OfflineNewsManager mOfflineNewsManager;
+    private static long timeD, lastClickTime;
 
     public NewsListFragment() {
         // Required empty public constructor
@@ -64,6 +65,16 @@ public class NewsListFragment extends Fragment {
     public static NewsListFragment newInstance() {
         NewsListFragment fragment = new NewsListFragment();
         return fragment;
+    }
+
+    public static boolean isFastDoubleClick() {
+        timeD = System.currentTimeMillis() - lastClickTime;
+        if (timeD >= 0 && timeD <= 1000) {
+            return true;
+        } else {
+            lastClickTime = System.currentTimeMillis();
+            return false;
+        }
     }
 
     @Override
@@ -105,13 +116,8 @@ public class NewsListFragment extends Fragment {
                             public void onClick(int pos) {
 
                                 // 防止连续点击
-                                view.setClickable(false);
-                                view.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        view.setClickable(true);
-                                    }
-                                }, 2000);
+                                if (isFastDoubleClick())
+                                    return;
 
                                 Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
                                 News newsDetail = mNewsList.get(pos);

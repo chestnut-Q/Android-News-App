@@ -15,6 +15,7 @@ import com.java.qinruoyu.NewsManager;
 import com.java.qinruoyu.OfflineNewsManager;
 import com.java.qinruoyu.R;
 import com.java.qinruoyu.adapter.NewsAdapter;
+import com.java.qinruoyu.fragment.NewsListFragment;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -35,6 +36,17 @@ public class SearchResultActivity extends AppCompatActivity {
     private RecyclerView mRvNewsSearched;
     private LinearLayoutManager mLinearLayoutManager;
     private OfflineNewsManager mOfflineNewsManager;
+    private static long timeD, lastClickTime;
+
+    public static boolean isFastDoubleClick() {
+        timeD = System.currentTimeMillis() - lastClickTime;
+        if (timeD >= 0 && timeD <= 1000) {
+            return true;
+        } else {
+            lastClickTime = System.currentTimeMillis();
+            return false;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +72,8 @@ public class SearchResultActivity extends AppCompatActivity {
         mNewsAdapter = new NewsAdapter(mNewsList, SearchResultActivity.this, new NewsAdapter.OnItemClickListener() {
             @Override
             public void onClick(int pos) {
+                if (isFastDoubleClick())
+                    return;
                 Intent intent = new Intent(getApplicationContext(), NewsDetailActivity.class);
                 intent.putExtra("news", mNewsList.get(pos));
                 startActivity(intent);

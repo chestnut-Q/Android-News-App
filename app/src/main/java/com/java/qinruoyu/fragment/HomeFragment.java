@@ -35,6 +35,17 @@ public class HomeFragment extends Fragment {
     private NewsAdapter mNewsAdapter;
     private OfflineNewsManager mOfflineNewsManager;
     private ArrayList<News> mNewsList;
+    private static long timeD, lastClickTime;
+
+    public static boolean isFastDoubleClick() {
+        timeD = System.currentTimeMillis() - lastClickTime;
+        if (timeD >= 0 && timeD <= 1000) {
+            return true;
+        } else {
+            lastClickTime = System.currentTimeMillis();
+            return false;
+        }
+    }
 
     public HomeFragment() {
         // Required empty public constructor
@@ -72,13 +83,8 @@ public class HomeFragment extends Fragment {
             public void onClick(int pos) {
 
                 // 防止连续点击
-                view.setClickable(false);
-                view.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.setClickable(true);
-                    }
-                }, 2000);
+                if (isFastDoubleClick())
+                    return;
 
                 Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
                 News newsDetail = mNewsAdapter.getNewsList().get(pos);
